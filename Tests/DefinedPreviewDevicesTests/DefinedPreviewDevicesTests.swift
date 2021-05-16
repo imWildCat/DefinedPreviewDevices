@@ -1,11 +1,8 @@
-    import XCTest
-    @testable import DefinedPreviewDevices
+@testable import DefinedPreviewDevices
+import XCTest
 
-    final class DefinedPreviewDevicesTests: XCTestCase {
-        func testExample() {
-            // This is an example of a functional test case.
-            // Use XCTAssert and related functions to verify your tests produce the correct
-            // results.
-            // XCTAssertEqual(DefinedPreviewDevices().text, "Hello, World!")
-        }
+final class DefinedPreviewDevicesTests: XCTestCase {
+    func testExample() {
+        XCTAssertEqual(DefinedPreviewDevices.Device.allCases.count, 68 + 2)
     }
+}
