@@ -1,8 +1,12 @@
 #if canImport(SwiftUI)
   @available(iOS 13.0, OSX 10.15, tvOS 13.0, watchOS 6.0, *)
+  /// All of these supported devices
+  ///
+  /// More reference could be found at: <https://developer.apple.com/documentation/swiftui/view/previewdevice(_:)>
   public extension DefinedPreviewDevices {
     enum Device: String, CaseIterable {
       case mac = "Mac"
+      case macCatalyst = "Mac Catalyst"
 
       // MARK: Generated code start
       case iPhone4s = "iPhone 4s"

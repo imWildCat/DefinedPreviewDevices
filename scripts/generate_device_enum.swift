@@ -94,3 +94,5 @@ try! deviceCode.write(to: deviceCodePath, atomically: true, encoding: .utf8)
 
 print("Wrote file: \(deviceCodePath)")
 
+print("\(deviceTypes.count) device types in total")
+
