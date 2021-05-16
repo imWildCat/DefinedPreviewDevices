@@ -54,17 +54,35 @@ func normalizeCaseName(input: String) -> String {
   let first = input.first?.lowercased()
 
   let charactersToBeRemoved = Set([" ", "-", "*", "(", ")"].map { Character($0) })
-  let others = Array(input).filter({ !charactersToBeRemoved.contains($0) })
+  let others = Array(input).filter { !charactersToBeRemoved.contains($0) }
 
-  return [first, String(others.dropFirst())].compactMap{ $0 }.joined()
+  return [first, String(others.dropFirst())].compactMap { $0 }.joined()
 }
 
-let outputLines: [String] = deviceTypes.map { deviceType in 
+let outputLines: [String] = deviceTypes.map { deviceType in
   let name = deviceType.name
   let caseName = normalizeCaseName(input: name)
   return "case \(caseName) = \"\(name)\""
 }
 
+let deviceCodePath = URL(string: "file://\(fileManager.currentDirectoryPath)/Sources/DefinedPreviewDevices/DefinedPreviewDevices+Device.swift")!
+print(deviceCodePath)
 
+var deviceCode: String
+do {
+  deviceCode = try String(contentsOf: deviceCodePath, encoding: .utf8)
+} catch {
+  fatalError("\(error)")
+}
 
 print(outputLines)
+print(deviceCode)
+
+let startReplaceRange = deviceCode.range(of: "// MARK: Generated code start\n")!
+let endReplaceRange = deviceCode.range(of: "\n      // MARK: Generated code end")!
+
+let readableCode = outputLines.map { "      \($0)" }.joined(separator: "\n") + "\n"
+
+deviceCode.replaceSubrange(startReplaceRange.upperBound...endReplaceRange.lowerBound, with: readableCode)
+
+print(deviceCode)
