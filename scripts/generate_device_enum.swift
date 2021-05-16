@@ -65,7 +65,9 @@ func normalizeCaseName(input: String) -> String {
 
   let first = spaceRemovedInput.first?.lowercased()
 
-  return [first, String(spaceRemovedInput.dropFirst())].compactMap { $0 }.joined()
+  let nearFinal = [first, String(spaceRemovedInput.dropFirst())].compactMap { $0 }.joined()
+
+  return nearFinal.replacingOccurrences(of: ".", with: "_")
 }
 
 let outputLines: [String] = deviceTypes.map { deviceType in
@@ -86,7 +88,7 @@ do {
 let startReplaceRange = deviceCode.range(of: "// MARK: Generated code start\n")!
 let endReplaceRange = deviceCode.range(of: "\n      // MARK: Generated code end")!
 
-let readableCode = (outputLines.map { "      \($0)" }.joined(separator: "\n") + "\n").replacingOccurrences(of: ".", with: "_")
+let readableCode = (outputLines.map { "      \($0)" }.joined(separator: "\n") + "\n")
 
 deviceCode.replaceSubrange(startReplaceRange.upperBound ... endReplaceRange.lowerBound, with: readableCode)
 
