@@ -51,12 +51,21 @@ let deviceTypes = payload.deviceTypes
 // Generate data
 
 func normalizeCaseName(input: String) -> String {
-  let first = input.first?.lowercased()
+  let charactersExceptSpaceToBeRemoved = Set(["-", "*", "(", ")"].map { Character($0) })
+  let cleaned = Array(input).filter { !charactersExceptSpaceToBeRemoved.contains($0) }
 
-  let charactersToBeRemoved = Set([" ", "-", "*", "(", ")"].map { Character($0) })
-  let others = Array(input).filter { !charactersToBeRemoved.contains($0) }
+  let spaceRemovedInput = cleaned.split(separator: " ").map { String($0) }.reduce("") { prev, next in
+    if prev.isEmpty {
+      return next
+    } else if prev.last?.isNumber ?? false, next.first?.isNumber ?? false {
+      return "\(prev)_\(next)"
+    }
+    return prev + [next.first?.uppercased(), String(next.dropFirst())].compactMap { $0 }.joined()
+  }
 
-  return [first, String(others.dropFirst())].compactMap { $0 }.joined()
+  let first = spaceRemovedInput.first?.lowercased()
+
+  return [first, String(spaceRemovedInput.dropFirst())].compactMap { $0 }.joined()
 }
 
 let outputLines: [String] = deviceTypes.map { deviceType in
@@ -66,7 +75,6 @@ let outputLines: [String] = deviceTypes.map { deviceType in
 }
 
 let deviceCodePath = URL(string: "file://\(fileManager.currentDirectoryPath)/Sources/DefinedPreviewDevices/DefinedPreviewDevices+Device.swift")!
-print(deviceCodePath)
 
 var deviceCode: String
 do {
@@ -75,14 +83,14 @@ do {
   fatalError("\(error)")
 }
 
-print(outputLines)
-print(deviceCode)
-
 let startReplaceRange = deviceCode.range(of: "// MARK: Generated code start\n")!
 let endReplaceRange = deviceCode.range(of: "\n      // MARK: Generated code end")!
 
-let readableCode = outputLines.map { "      \($0)" }.joined(separator: "\n") + "\n"
+let readableCode = (outputLines.map { "      \($0)" }.joined(separator: "\n") + "\n").replacingOccurrences(of: ".", with: "_")
 
-deviceCode.replaceSubrange(startReplaceRange.upperBound...endReplaceRange.lowerBound, with: readableCode)
+deviceCode.replaceSubrange(startReplaceRange.upperBound ... endReplaceRange.lowerBound, with: readableCode)
 
-print(deviceCode)
+try! deviceCode.write(to: deviceCodePath, atomically: true, encoding: .utf8)
+
+print("Wrote file: \(deviceCodePath)")
+
