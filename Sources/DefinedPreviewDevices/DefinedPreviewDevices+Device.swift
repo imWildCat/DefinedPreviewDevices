@@ -33,6 +33,10 @@
       case iPhone12 = "iPhone 12"
       case iPhone12Pro = "iPhone 12 Pro"
       case iPhone12ProMax = "iPhone 12 Pro Max"
+      case iPhone13Pro = "iPhone 13 Pro"
+      case iPhone13ProMax = "iPhone 13 Pro Max"
+      case iPhone13Mini = "iPhone 13 mini"
+      case iPhone13 = "iPhone 13"
       case iPodTouch7thGeneration = "iPod touch (7th generation)"
       case iPad2 = "iPad 2"
       case iPadRetina = "iPad Retina"
@@ -55,9 +59,11 @@
       case iPadMini5thGeneration = "iPad mini (5th generation)"
       case iPadAir3rdGeneration = "iPad Air (3rd generation)"
       case iPad8thGeneration = "iPad (8th generation)"
+      case iPad9thGeneration = "iPad (9th generation)"
       case iPadAir4thGeneration = "iPad Air (4th generation)"
       case iPadPro11inch3rdGeneration = "iPad Pro (11-inch) (3rd generation)"
       case iPadPro12_9inch5thGeneration = "iPad Pro (12.9-inch) (5th generation)"
+      case iPadMini6thGeneration = "iPad mini (6th generation)"
       case appleTV = "Apple TV"
       case appleTV4K = "Apple TV 4K"
       case appleTV4KAt1080p = "Apple TV 4K (at 1080p)"
@@ -77,6 +83,8 @@
       case appleWatchSE44mm = "Apple Watch SE - 44mm"
       case appleWatchSeries6_40mm = "Apple Watch Series 6 - 40mm"
       case appleWatchSeries6_44mm = "Apple Watch Series 6 - 44mm"
+      case appleWatchSeries7_41mm = "Apple Watch Series 7 - 41mm"
+      case appleWatchSeries7_45mm = "Apple Watch Series 7 - 45mm"
       // MARK: Generated code end
     }
   }
